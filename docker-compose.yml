@@ -1,0 +1,29 @@
+version: "2"
+services:
+  elasticsearch:
+    tty: true
+    build: ./elasticsearch
+    image: lbischof/elasticsearch
+    ports:
+      - "9200:9200"
+  kibana:
+    tty: true
+    build: ./kibana
+    image: lbischof/kibana
+    ports:
+      - "5601:5601"
+    links:
+      - "elasticsearch"
+  logstash:
+    image: logstash
+    links:
+      - "elasticsearch"
+  filebeat:
+    build: ./filebeat
+    image: filebeat
+    depends_on:
+      - logstash
+    environment:
+      - LOGSTASH_HOST=logstash
+      - LOGSTASH_PORT=5001
+      - INDEX=logstash
