@@ -15,15 +15,31 @@ services:
     links:
       - "elasticsearch"
   logstash:
+    tty: true
     image: logstash
     links:
       - "elasticsearch"
   filebeat:
+    tty: true
     build: ./filebeat
     image: filebeat
     depends_on:
       - logstash
     environment:
       - LOGSTASH_HOST=logstash
-      - LOGSTASH_PORT=5001
+      - LOGSTASH_PORT=5043
       - INDEX=logstash
+  php-fpm:
+    tty: true
+    image: bobbydvo/dummyapp_php-fpm:latest
+    ports:
+      - "9000:9000"
+    environment:
+      - APPLICATION_ENV=prod
+  web:
+    tty: true
+    depends_on:
+      - php-fpm
+    image: bobbydvo/ukc_nginx:latest
+    ports:
+      - "80:80"

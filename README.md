@@ -8,9 +8,13 @@ These are modified dockerfiles from the official docker images. I removed the go
 There is a docker-compose and a openshift template file in the `example` directory.
 ### Local
 ```
+
+cd s2i
+docker-compose run s2i s2i build https://github.com/UKCloud/docker-elk.git lbischof/logstash logstash --context-dir=example
+cd ..
 docker run -it --rm --name elasticsearch lbischof/elasticsearch
 docker run -it --rm --link elasticsearch:elasticsearch -p 5601:5601 lbischof/kibana
-s2i build https://github.com/ukcloud/docker-elk.git lbischof/logstash logstash --context-dir=example
+
 docker run -it --rm --link elasticsearch:elasticsearch logstash
 ```
 
