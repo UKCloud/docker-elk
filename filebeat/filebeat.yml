@@ -1,11 +1,8 @@
 filebeat:
   prospectors:
-    -
-      encoding: utf-8
-      input_type: stdin
-      scan_frequency: 0s
-
-  config_dir:
+    - input_type: log
+      paths:
+        - /var/log/nginx/*.log
 
 
 ############################# Output ##########################################

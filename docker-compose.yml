@@ -25,10 +25,13 @@ services:
     image: filebeat
     depends_on:
       - logstash
+      - php-fpm
     environment:
       - LOGSTASH_HOST=logstash
       - LOGSTASH_PORT=5043
       - INDEX=logstash
+    ports:
+      - "80:80"
   php-fpm:
     tty: true
     image: bobbydvo/dummyapp_php-fpm:latest
@@ -36,10 +39,3 @@ services:
       - "9000:9000"
     environment:
       - APPLICATION_ENV=prod
-  web:
-    tty: true
-    depends_on:
-      - php-fpm
-    image: bobbydvo/ukc_nginx:latest
-    ports:
-      - "80:80"
