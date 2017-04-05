@@ -16,7 +16,8 @@ services:
       - "elasticsearch"
   logstash:
     tty: true
-    image: logstash
+    build: ./logstash
+    image: bobbydvo/ukc_logstash
     links:
       - "elasticsearch"
   filebeat:
@@ -28,7 +29,7 @@ services:
       - php-fpm
     environment:
       - LOGSTASH_HOST=logstash
-      - LOGSTASH_PORT=5043
+      - LOGSTASH_PORT=5044
       - INDEX=logstash
     ports:
       - "80:80"
@@ -39,3 +40,10 @@ services:
       - "9000:9000"
     environment:
       - APPLICATION_ENV=prod
+  collectd:
+    tty: true
+    build: ./collectd
+    image: bobbydvo/ukc_collectd
+    depends_on:
+      - logstash
+

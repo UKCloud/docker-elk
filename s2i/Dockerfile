@@ -1,4 +1,0 @@
-FROM ubuntu
-
-WORKDIR /usr/local/bin
-RUN apt-get update && apt-get -y install curl git && (curl -L https://github.com/openshift/source-to-image/releases/download/v1.1.3/source-to-image-v1.1.3-ddb10f1-linux-amd64.tar.gz | tar -zxf - ./s2i) && apt-get update && apt-get -y install apt-transport-https ca-certificates && apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D && (echo "deb https://apt.dockerproject.org/repo ubuntu-xenial main" | tee /etc/apt/sources.list.d/docker.list) && apt-get update && apt-cache policy docker-engine && apt-get install -y docker-engine
